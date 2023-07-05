@@ -1,6 +1,7 @@
 from fastapi import FastAPI , HTTPException
 from models.clientes import Cliente
 from models.articulos import Articulos
+from models.category import Category
 app = FastAPI()
 
 # CRUD para la clase Clientes
@@ -124,3 +125,20 @@ async def delete_articulo(id: int):
         return HTTPException(status_code=404,detail=f"articulo with {id=} does not exist")
     articuls.pop(id)
     return data_articulo
+
+
+#CRUD para category
+
+data_category = {
+    "category" : {
+        1 : Category(id= 1, description= "salas")
+    }
+}
+
+
+#metodo get para leer las category
+
+@app.get("/category", tags=["category"])
+async def read_category():
+    return data_category
+
