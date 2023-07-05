@@ -142,3 +142,11 @@ data_category = {
 async def read_category():
     return data_category
 
+#metodo post para agregar  categorys
+
+@app.post("/category",tags=["category"])
+async def create_category(category : Category):
+    categorys = data_category["category"]
+    categorys[category.id] = category
+    return categorys
+
