@@ -2,6 +2,7 @@ from fastapi import FastAPI , HTTPException
 from models.clientes import Cliente
 from models.articulos import Articulos
 from models.category import Category
+from models.ordenes import Ordenes
 app = FastAPI()
 
 # CRUD para la clase Clientes
@@ -173,3 +174,19 @@ async def delete_category(id: int):
         return HTTPException(status_code=404,detail=f"category with {id=} does not exist")
     categorys.pop(id)
     return data_category
+
+
+#CRUD para ordenes
+
+data_orders = {
+
+    "orders" : {
+        1 : Ordenes(id= 1, fecha= "05/07/2023", id_cliente= 1)
+    }
+}
+
+#metodo get para agregar ordenes
+
+@app.get("/orders", tags=["orders"])
+async def read_orders():
+    return  data_orders
