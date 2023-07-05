@@ -215,3 +215,13 @@ async def edit_orders(id: int, orders : Ordenes):
     edit.fecha = orders.fecha
     edit.id_cliente = orders.id_cliente
     return edit
+
+#metodo delete para eliminar ordenes
+
+@app.delete("/orders/{id}",tags=["orders"])
+async def delete_orders(id: int):
+    orderns = data_orders["orders"]
+    if id not in orderns:
+        return HTTPException(status_code=404,detail=f"orders with {id=}  does not exist")
+    orderns.pop(id)
+    return data_orders
