@@ -13,6 +13,14 @@ data_clients = {
     }
 }
 
-@app.get("/clientes", tags=["clientes"])
+@app.get("/clients", tags=["clients"])
 async def read_clients():
+    return data_clients
+
+# post me permite crear clientes
+
+@app.post("/clients",tags=["clients"])
+async def create_clients(clients: Cliente):
+    client = data_clients["clients"]
+    client[clients.id] = clients
     return data_clients
