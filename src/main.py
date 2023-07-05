@@ -185,8 +185,18 @@ data_orders = {
     }
 }
 
-#metodo get para agregar ordenes
+#metodo get para leer ordenes
 
 @app.get("/orders", tags=["orders"])
 async def read_orders():
     return  data_orders
+
+#metodo post para agregar ordenes
+
+@app.post("/orders",tags=["orders"])
+async def create_orders(orders : Ordenes):
+    orderns = data_orders["orders"]
+    orderns[orders.id] = orders
+    return orderns
+
+    
