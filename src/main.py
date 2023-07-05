@@ -76,7 +76,7 @@ async def delete_client(id : int):
 
 data_articulo = {
     "articulos" : {
-        1 : Articulos(id=1, price=3000000, description= "salas romana", id_categoty= 1)
+        1 : Articulos(id=1, price=3000000, description= "salas romana", id_category= 1)
     }
 }
 
@@ -94,3 +94,23 @@ async def create_articulo(articulo : Articulos):
     articuls = data_articulo["articulos"]
     articuls[articulo.id] = articulo
     return articuls
+
+
+#metodo put para editar los articulos
+@app.put("/articulos/{id}", tags=["articulos"])
+async def edit_articulo(id: int, articulo : Articulos):
+    articuls = data_articulo["articulos"]
+    if id not in articuls:
+        return HTTPException(status_code=404,detail=f"client with {id=} does not exist")
+    if articulo.price < 1:
+        return HTTPException(status_code=404, detail="price is mandatory")
+    if len(articulo.description.strip()) < 1:
+        return HTTPException(status_code=404, detail=" description can not be empty")
+    if articulo.id_category < 1:
+        return HTTPException(status_code=404, detail="id_category is mandatory")
+    
+    edit = articuls[id]
+    edit.price = articulo.price
+    edit.description = articulo.description
+    edit.id_category = articulo.id_category
+    return edit
