@@ -163,3 +163,13 @@ async def edit_category(id: int, category : Category):
     edit = categorys[id]
     edit.description = category.description
     return edit
+
+#metodo delete para eliminar las categorys
+
+@app.delete("/category/{id}", tags=["category"])
+async def delete_category(id: int):
+    categorys = data_category["category"]
+    if id not in categorys:
+        return HTTPException(status_code=404,detail=f"category with {id=} does not exist")
+    categorys.pop(id)
+    return data_category
