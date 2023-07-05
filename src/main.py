@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI , HTTPException
 from models.clientes import Cliente
 app = FastAPI()
 
@@ -24,3 +24,37 @@ async def create_clients(clients: Cliente):
     client = data_clients["clients"]
     client[clients.id] = clients
     return data_clients
+
+# put me permite editar clientes
+
+@app.put("/clients/{id}", tags=["clients"])
+async def edit_clients(id : int , clients : Cliente):
+    client = data_clients["clients"]
+    if id not in client:
+        return HTTPException(status_code=404,detail=f"client with {id=} does not exist")
+    
+    if len(clients.name.strip()) < 1:
+        return HTTPException(status_code=404, detail=" name can not be empty")
+    if len(clients.last_name.strip()) < 1:
+        return HTTPException(status_code=404, detail=" last_name can not be empty")
+    if len(clients.second_surname.strip()) < 1:
+        return HTTPException(status_code=404, detail=" second_surname can not be empty")
+    if clients.num_id < 1:
+        return HTTPException(status_code=404, detail="num_id is mandatory")
+    if len(clients.address.strip()) < 1:
+        return HTTPException(status_code=404, detail=" address can not be empty")
+    if clients.phone_number < 1:
+        return HTTPException(status_code=404, detail="phone_number is mandatory")
+    if len(clients.email.strip()) < 1:
+        return HTTPException(status_code=404, detail=" email can not be empty")
+    
+    edit = client[id]
+    edit.name = clients.name
+    edit.last_name = clients.last_name
+    edit.second_surname = clients.second_surname
+    edit.num_id = clients.num_id
+    edit.address = clients.address
+    edit.phone_number = clients.phone_number
+    edit.email  = clients.email
+    return edit
+    
