@@ -101,7 +101,7 @@ async def create_articulo(articulo : Articulos):
 async def edit_articulo(id: int, articulo : Articulos):
     articuls = data_articulo["articulos"]
     if id not in articuls:
-        return HTTPException(status_code=404,detail=f"client with {id=} does not exist")
+        return HTTPException(status_code=404,detail=f"articulo with {id=} does not exist")
     if articulo.price < 1:
         return HTTPException(status_code=404, detail="price is mandatory")
     if len(articulo.description.strip()) < 1:
@@ -114,3 +114,13 @@ async def edit_articulo(id: int, articulo : Articulos):
     edit.description = articulo.description
     edit.id_category = articulo.id_category
     return edit
+
+#metodo delete para eliminar articulos
+
+@app.delete("/articulos/{id}",tags=["articulos"])
+async def delete_articulo(id: int):
+    articuls = data_articulo["articulos"]
+    if id not in articuls:
+        return HTTPException(status_code=404,detail=f"articulo with {id=} does not exist")
+    articuls.pop(id)
+    return data_articulo
