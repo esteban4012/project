@@ -199,4 +199,19 @@ async def create_orders(orders : Ordenes):
     orderns[orders.id] = orders
     return orderns
 
+#metodo put para actualizar ordenes
+
+@app.put("/orders/{id}",tags=["orders"])
+async def edit_orders(id: int, orders : Ordenes):
+    orderns = data_orders["orders"]
+    if id not in orderns:
+        return HTTPException(status_code=404,detail=f"orders with {id=}  does not exist")
+    if len(orders.fecha.strip()) < 1:
+        return HTTPException(status_code=404,detail=f"the fecha field cannot be empty")
+    if orders.id_cliente < 1:
+        return HTTPException(status_code=404,detail=f"id_cliente is mandatory")
     
+    edit = orderns[id]
+    edit.fecha = orders.fecha
+    edit.id_cliente = orders.id_cliente
+    return edit
