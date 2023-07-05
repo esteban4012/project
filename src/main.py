@@ -86,3 +86,11 @@ data_articulo = {
 async def read_articulo():
     return data_articulo
 
+
+#metodo post para crear los articulos 
+
+@app.post("/articulos", tags=["articulos"])
+async def create_articulo(articulo : Articulos):
+    articuls = data_articulo["articulos"]
+    articuls[articulo.id] = articulo
+    return articuls
