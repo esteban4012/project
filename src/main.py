@@ -3,7 +3,10 @@ from models.clientes import Cliente
 from models.articulos import Articulos
 from models.category import Category
 from models.ordenes import Ordenes
+import repository
+
 app = FastAPI()
+
 
 # CRUD para la clase Clientes
 # get me permite leer la tabla de los clientes
@@ -18,7 +21,7 @@ data_clients = {
 
 @app.get("/clients", tags=["clients"])
 async def read_clients():
-    return data_clients
+    return repository.fech_clients()
 
 # post me permite crear clientes
 
